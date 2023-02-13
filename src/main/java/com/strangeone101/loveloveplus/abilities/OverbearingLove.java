@@ -8,12 +8,14 @@ import com.projectkorra.projectkorra.util.DamageHandler;
 import com.strangeone101.loveloveplus.Loveloveplus;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractArrow;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -117,7 +119,7 @@ public class OverbearingLove extends LoveAbility {
             if (this.arrow.isInBlock()) {
                 explode();
 
-                for (Entity e : GeneralMethods.getEntitiesAroundPoint(this.arrow.getLocation(), 3)) {
+                for (Entity e : GeneralMethods.getEntitiesAroundPoint(this.arrow.getLocation(), 3, e -> e instanceof LivingEntity && !(e instanceof ArmorStand) && !e.isDead() && (!(e instanceof Player) || ((Player) e).getGameMode() != GameMode.SPECTATOR))) {
                     if (e == player || e == arrow) continue;
                     DamageHandler.damageEntity(e, this.player, Math.min(damage, damage / e.getLocation().distance(this.arrow.getLocation())), this);
                 }
@@ -127,7 +129,7 @@ public class OverbearingLove extends LoveAbility {
             } else {
                 boolean b = false;
 
-                for (Entity e : GeneralMethods.getEntitiesAroundPoint(this.arrow.getLocation(), 1)) {
+                for (Entity e : GeneralMethods.getEntitiesAroundPoint(this.arrow.getLocation(), 1, e -> e instanceof LivingEntity && !(e instanceof ArmorStand) && !e.isDead() && (!(e instanceof Player) || ((Player) e).getGameMode() != GameMode.SPECTATOR))) {
                     if (e == player || e == arrow) continue;
 
                     DamageHandler.damageEntity(e, this.player, damage, this);

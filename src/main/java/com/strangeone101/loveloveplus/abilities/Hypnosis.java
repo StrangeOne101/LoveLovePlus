@@ -4,9 +4,11 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.strangeone101.loveloveplus.Disguises;
 import com.strangeone101.loveloveplus.Loveloveplus;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Animals;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -47,7 +49,7 @@ public class Hypnosis extends LoveAbility {
 
     @Override
     public void progress() {
-        List<Entity> entityList = GeneralMethods.getEntitiesAroundPoint(location, radius);
+        List<Entity> entityList = GeneralMethods.getEntitiesAroundPoint(location, radius, e -> e instanceof LivingEntity && !(e instanceof ArmorStand) && !e.isDead() && (!(e instanceof Player) || ((Player) e).getGameMode() != GameMode.SPECTATOR));
         entityList.remove(player);
 
         if (entityList.size() > 0) {
